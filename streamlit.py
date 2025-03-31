@@ -3,20 +3,12 @@ import pandas as pd
 
 st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 
-# Substitua pela sua URL do Google Sheets
-URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1-UvAyIKgYSwUUKZiCClNv_MNr4nb4DYuZJJy0c0Xtgc/edit?usp=sharing" # Substitua por sua url do sheets
+# Carrega o CSV
+@st.cache_data  # Usando cache para evitar recarregamento desnecessário
+def load_data():
+    return pd.read_csv("data/ppg_sae_2025.csv", sep=';')  # Substitua 'seu_arquivo.csv' pelo nome correto
 
-# Carrega os dados do Google Sheets
-@st.cache_data
-def load_data(url):
-    try:
-        url_csv = url.replace("/edit#gid=", "/export?format=csv&gid=")
-        return pd.read_csv(url_csv, sep=',') # O sheets exporta em csv com separador ','
-    except Exception as e:
-        st.error(f"Ocorreu um erro ao ler a planilha: {e}")
-        return pd.DataFrame() # Retorna um DataFrame vazio em caso de erro
-
-df = load_data(URL_PLANILHA)
+df = load_data()
 
 # Define a cor de fundo
 st.markdown(
