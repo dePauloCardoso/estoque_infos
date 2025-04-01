@@ -1,5 +1,5 @@
 [project]
-name = "estoque_info"
+name = "streamlit-sae"
 version = "0.1.0"
 description = ""
 authors = [
@@ -19,4 +19,4 @@ dependencies = [
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-package-mode = false
+packages = [{ include = "streamlit-sae" }]
