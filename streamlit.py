@@ -8,19 +8,33 @@ st.set_page_config(layout="wide", initial_sidebar_state="expanded")
 def load_data_ppg():
     return pd.read_csv("data/ppg_sae_2025.csv", sep=';')
 
-# Carrega os dados de Estoque
+# Carrega os dados de Estoque do Google Sheets
 @st.cache_data
-def load_data_estoque():
-    return pd.read_csv("data/estoqueSae.csv") # Adaptar com seu arquivo
+def load_data_estoque(url):
+    try:
+        csv_export_url = url.replace('/pubhtml', '/pub?output=csv')
+        return pd.read_csv(csv_export_url)
+    except Exception as e:
+        st.error(f"Erro ao carregar dados do Google Sheets: {e}")
+        return pd.DataFrame()
 
 # Carrega os dados de Contratos
 @st.cache_data
 def load_data_contratos():
     return pd.read_csv("data/contratosSae.csv", sep=';') # Adaptar com seu arquivo
 
+# Define o link do Google Sheets para o Estoque
+SHEETS_URL_ESTOQUE = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQVpYelrsyO0cuBSQxwvaT8SkTdyrnzOvbPHWZLamz4MrWCKsZ733e_hKfe45bgqFpX0YIj2ohmrssn/pubhtml"
+
+# # Carrega os DataFrames
+# df_ppg = load_data_ppg()
+# df_estoque = load_data_estoque(SHEETS_URL_ESTOQUE)
+# df_contratos = load_data_contratos()
+
 # Carrega os DataFrames
 df_ppg = load_data_ppg()
-df_estoque = load_data_estoque()
+df_estoque = load_data_estoque(SHEETS_URL_ESTOQUE)
+print("Colunas do df_estoque:", df_estoque.columns) # Adicione esta linha para inspeção
 df_contratos = load_data_contratos()
 
 # Define a cor de fundo
