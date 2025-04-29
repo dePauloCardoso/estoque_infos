@@ -9,7 +9,7 @@ def load_data_ppg():
     return pd.read_csv("data/ppg_sae_2025.csv", sep=';')
 
 # Carrega os dados de Estoque do Google Sheets
-@st.cache_data
+@st.cache_data(ttl=3600)
 def load_data_estoque(url):
     try:
         csv_export_url = url.replace('/pubhtml', '/pub?output=csv')
